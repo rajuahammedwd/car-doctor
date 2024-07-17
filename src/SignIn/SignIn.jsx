@@ -1,13 +1,24 @@
 import { Link } from "react-router-dom";
 import img from "../assets/images/login/login.svg"
 import SocialMediaLogin from "../components/SocialMediaLogin/SocialMediaLogin";
+import { useContext } from "react";
+import { AuthContext } from "../Provider/AuthProvider";
 const SignIn = () => {
+  const {signIn} = useContext(AuthContext)
     const handleSubmit = (event) => {
         event.preventDefault();
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password);
+        signIn(email, password)
+        .then((result) => {
+            const user = result.user;
+            console.log("Login User",user);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+
         form.reset();
     }
   return (

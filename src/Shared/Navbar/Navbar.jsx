@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
+import { useContext } from "react";
 
 
 const Navbar = () => {
+  const {user,logout} = useContext(AuthContext)
     const navbar = [
         <li><Link to="/">Home</Link></li>,
         <li><Link to="/about">About</Link></li>,
         <li><Link to="/service">Service</Link></li>,
         <li><Link to="/blog">Blog</Link></li>,
-        <li><Link to="/signIn">SignIn</Link></li>,
+        <li>{user ? <><Link>{user.email}</Link><Link onClick={logout}>Logout</Link></> : <Link to="/signIn">Login</Link>}</li>,
     ]
   return (
     <div className="navbar bg-base-100">

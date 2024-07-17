@@ -3,7 +3,7 @@ import Navbar from "../Shared/Navbar/Navbar";
 
 const Main = () => {
     return (
-        <div>
+        <div className="poppins-regular">
            <Navbar></Navbar>
            <Outlet></Outlet>
         </div>
