@@ -2,7 +2,8 @@ import AboutUs from "./AboutUs";
 import Banner from "./Banner";
 import Contact from "./Contact";
 import OurProducts from "./OurProducts";
-import OurService from "./OurService";
+import OurService from "./Service/OurService";
+
 import Team from "./Team";
 import WhyChoiceUs from "./WhyChoiceUs";
 

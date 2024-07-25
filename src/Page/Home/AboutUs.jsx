@@ -2,7 +2,7 @@ import img1 from "../../assets/images/about_us/person.jpg"
 import img2 from "../../assets/images/about_us/parts.jpg"
 const AboutUs = () => {
   return (
-    <div className="hero my-8 lg:h-[600px] lg:w-3/4 mx-auto ">
+    <div className="hero  lg:w-3/4 mx-auto ">
       <div className="hero-content h-full flex-col lg:flex-row">
        <div className="lg:w-1/2 relative ">
        <img src={img1} className="w-3/4 h-full rounded" alt="" />
