@@ -5,6 +5,11 @@ import logo from "../../assets/logo.svg";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
+  const handleLogOut=()=>{
+    logout()
+    .then()
+    .catch(error=>console.log(error))
+  }
   const navbar = [
     <li>
       <Link to="/">Home</Link>
@@ -13,7 +18,7 @@ const Navbar = () => {
       <Link to="/about">About</Link>
     </li>,
     <li>
-      <Link to="/service">Service</Link>
+      <Link to="/booking">My Bookings</Link>
     </li>,
     <li>
       <Link to="/blog">Blog</Link>

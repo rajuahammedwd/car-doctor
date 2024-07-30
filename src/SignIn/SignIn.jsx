@@ -1,26 +1,39 @@
-import { Link } from "react-router-dom";
-import img from "../assets/images/login/login.svg"
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import img from "../assets/images/login/login.svg";
 import SocialMediaLogin from "../components/SocialMediaLogin/SocialMediaLogin";
 import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
+import axios from "axios";
 const SignIn = () => {
-  const {signIn} = useContext(AuthContext)
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const form = event.target;
-        const email = form.email.value;
-        const password = form.password.value;
-        signIn(email, password)
-        .then((result) => {
-            const user = result.user;
-            console.log("Login User",user);
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+  const { signIn } = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-        form.reset();
-    }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    signIn(email, password)
+      .then((result) => {
+        const loggedInUser = result.user;
+        console.log(loggedInUser);
+        const user = { email };
+        axios.post("http://localhost:5000/jwt", user, {
+            withCredentials: true,
+          })
+          .then((res) => {
+            if (res.data.success) {
+              navigate(location?.state ? location?.state : "/");
+            }
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    form.reset();
+  };
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content w-full flex-col lg:flex-row justify-between items-center px-20">
@@ -59,12 +72,19 @@ const SignIn = () => {
               </label>
             </div>
             <div className="form-control mt-6">
-              <button className="btn bg-[#FF3811] text-white hover:text-[#FF3811] hover:bg-white">Login</button>
+              <button className="btn bg-[#FF3811] text-white hover:text-[#FF3811] hover:bg-white">
+                Login
+              </button>
             </div>
           </form>
           <SocialMediaLogin></SocialMediaLogin>
           <div className="text-center my-5">
-             <h2>Are you new here?<Link to={"/signUp"} className="text-orange-600">Sign Up</Link></h2>
+            <h2>
+              Are you new here?
+              <Link to={"/signUp"} className="text-orange-600">
+                Sign Up
+              </Link>
+            </h2>
           </div>
         </div>
       </div>

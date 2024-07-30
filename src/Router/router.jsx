@@ -6,6 +6,8 @@ import SignUp from "../SignUp/SignUp";
 import Error from "../Page/Error/Error";
 import CheckOut from "../Page/CheckOut/CheckOut";
 import About from "../Page/Home/About/About";
+import ManageOrder from "../Page/ManageOrder/ManageOrder";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -30,8 +32,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/checkOut/:id",
-        element: <CheckOut></CheckOut>,
+        element: <PrivateRoute><CheckOut></CheckOut></PrivateRoute>,
         loader:({params})=>fetch(`http://localhost:5000/services/${params.id}`)
+      },{
+        path:"booking",
+        element:<PrivateRoute><ManageOrder></ManageOrder></PrivateRoute>,
       }
     ],
     errorElement: <Error></Error>,

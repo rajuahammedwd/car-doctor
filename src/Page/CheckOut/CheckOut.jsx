@@ -1,10 +1,37 @@
-import React from "react";
+import { useContext } from "react";
 import { useLoaderData } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const CheckOut = () => {
   const service = useLoaderData();
-  console.log(service);
-  const { title, img } = service;
+  const { title, img,price } = service;
+  const {user}=useContext(AuthContext)
+
+  const handleSubmit = (event)=>{
+    event.preventDefault();
+    const form = event.target;
+    const name = form.name.value
+    const email = user?.email
+    const date = form.date.value
+    const price = form.price.value;
+    const checkOutData= {name,email,date,price}
+    fetch("http://localhost:5000/order",{
+      method:"POST",
+      headers:{
+        "content-type":"application/json"
+      },
+      body:JSON.stringify(checkOutData)
+      
+    })
+    .then(res=>res.json())
+    .then(data=>{
+      console.log(data)
+      if(data.insertedId){
+        alert("Order Confirmed")
+      }
+    })
+  }
+
 
   return (
     <div className="my-10">
@@ -19,13 +46,14 @@ const CheckOut = () => {
         </div>
       </div>
       <div className="max-w-4xl mx-auto my-5 bg-[#F3F3F3] p-10">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="grid lg:grid-cols-2 gap-5 mb-5">
             <div className="form-control">
               <input
                 type="text"
                 placeholder="Name"
-                name="email"
+                defaultValue={user?.displayName}
+                name="name"
                 className="input"
                 required
               />
@@ -43,6 +71,7 @@ const CheckOut = () => {
               <input
                 type="text"
                 placeholder="Email"
+                defaultValue={user?.email}
                 name="email"
                 className="input"
                 required
@@ -52,8 +81,9 @@ const CheckOut = () => {
             <div className="form-control">
               <input
                 type="number"
-                placeholder="Mobile Number"
-                name="number"
+                placeholder="Price"
+                defaultValue={price}
+                name="price"
                 className="input"
                 required
               />
